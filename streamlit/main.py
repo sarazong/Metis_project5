@@ -75,6 +75,7 @@ with recommender1:
     #read in the data
     df_rec = pd.read_pickle("data/GloVe_embedding_for_recommendation.pkl")
     
+    #function for book recommendation based on book summary
     def recommend(title, num_bks = 1):
         title = title.lower()
         ind = pairwise_distances(df_rec.loc[title].values.reshape(1,-1), df_rec, metric="cosine").argsort()[0][1:1+num_bks]
@@ -86,26 +87,7 @@ with recommender1:
             print("Title: ", i.title(), "\n")
             print("Rating (scale 0-5): ", rating, "; and Author: ", author, "\n")
             print("Summary: " , summary, "\n")
-
-    # user text input of book title
-    title = st.text_input("Please enter the full title of a book you enjoy reading:").strip('"')
-    
-    # user input on number of books
-    num_bks = st.slider("How many book recommendation would you like:", min_value=1, max_value=6, step=1)
-    
-    # use input to search for books in the dataset
-    match = [i.title() for i in df.loc[df["title"].str.contains("^"+title.lower()), "title"]]
-    if len(match) == 0:
-        st.write("Sorry, no match found in this dataset! Here is a random recommendation for you:")
-        title = df.loc[np.random.choice(df.index, size=1), "title"].values[0]
-        num_bks = 1
-    elif len(match) > 6 and title == "":
-        st.write("The following are the first six books in the dataset:", match[:6])
-    elif len(match) > 6 and title != "":
-        st.write("There are many matches from the dataset and the first six are:", match[:6])
-    else:
-        st.write("The mataching book from the dataset:", match)
-        
+            
     # re-directing the print out from the recommend function from terminal to streamlit
     @contextmanager
     def st_redirect(src, dst):
@@ -138,15 +120,37 @@ with recommender1:
         with st_redirect(sys.stderr, dst):
             yield
 
+    # user text input of book title
+    title = st.text_input("Please enter the full title of a book you enjoy reading:").strip('"')
+    
+    # user input on number of books
+    num_bks = st.slider("How many book recommendation would you like:", min_value=1, max_value=6, step=1)
+    
+    # use input to search for books in the dataset
+    match = [i.title() for i in df.loc[df["title"].str.contains("^"+title, case=False), "title"]]
+    if len(match) == 0:
+        st.write("Sorry, no match found in this dataset! Here is a random recommendation for you:")
+        title = df.loc[np.random.choice(df.index, size=1), "title"].values[0]
+        num_bks = 1
+    elif len(match) > 6 and title == "":
+        st.write("The following are the first six books from the dataset:", match[:6])
+    elif len(match) > 6 and title != "":
+        st.write("There are many matches from the dataset and the first six are:", match[:6])
+    else:
+        st.write("The mataching book from the dataset:", match)
+
     with st_stdout("info"):
         if title=="":
             print("^ Please enter the title of a book you enjoy reading in the space provide above! ^")
+        #elif (len(match) > 6 and title != ""):
+        elif (len(match) > 0 and title not in match):
+            print("^ Please enter the full title of the book you are interested in! ^")
         else:
             print(recommend(title=title, num_bks=num_bks))
 
 
 with recommender2:
-    st.header("If you are feeling more explorative, here are some recommendations for you based on topic and rating:")
+    st.header("If you are feeling more explorative, here are some random recommendations for you based on topic and rating:")
     
     def recommend2(df, num_bks=1):
         ind = np.random.choice(df.index, size=num_bks, replace=False)
@@ -166,12 +170,12 @@ with recommender2:
     with col_1:
         topics = ["biography", "business", "science", "gender", "religion", "race",
           "health", "world war II", "relationship", "art", "family", "british monarch"]
-        topic = st.selectbox("Please select a topic for the book:", options=topics, index=0)
+        topic = st.selectbox("Please select a topic for the book:", options=topics)
     
     with col_2:
-        rating = st.number_input("Please enter a number between 0 to 5 for rating:", min_value=0.0, max_value=5.0, step=0.01, value=4.0)
+        rating = st.number_input("Please enter a number between 0 to 5 for rating (books rated above number entered would be recommended):", min_value=0.0, max_value=5.0, step=0.01, value=4.0)
     
-        # user input on number of books
+    # user input on number of books
     num_bks2 = st.slider("How many book recommendation would you like:", min_value=1, max_value=6, step=1, key=11)
     
     #select books from specific topic and sort books by rating, descending
@@ -183,7 +187,10 @@ with recommender2:
         with st_stdout("info"):
             #randomly recommend a book from the dataset
             print(recommend2(df, num_bks=1))
-            
+    elif len(match) < num_bks2:
+        st.write(f"Only {len(match)} books from this dataset match the criteria and here they are:")
+        with st_stdout("info"):
+            print(recommend2(match, num_bks=len(match)))
     else:
         st.write("The recommendations for you are:")
         with st_stdout("info"):
