@@ -1,24 +1,30 @@
 ## Metis_project5: Books Worth Reading
 ### Description:
-For people who listen to podcasts, many of us would agree that podcasts help us learn many new things. In addition, podcasts are just another form of entertainment that we could enjoy anywhere with our devices. However, with a vast selection of podcasts out there, it could be hard to decide on which podcast to listen to. Using natural language processing techniques, I explored in this project the topics hidden in podcast reviews. I then built a podcast recommendation system based on those podcast reviews. 
+We read for different reasons, such as mental stimulation, stress reduction, knowledge, ect. However, reading a book from end to end takes a good amount of time. Before we invest our time to read a book, we may want to have an idea of whether the book is worthy of our time. A book recommender not only could help readers pick out their reads, but also could increase readers' satisfaction by providing recommendation the readers would enjoy. In this project, using web-scraped data and natural language processing techniques, I built a content-based book recommender. 
 
-<img src="https://github.com/sarazong/Metis_project4/blob/master/images/Podcasts_logo.png" alt="podcast logo" width="300" height="300">
+<img src="https://github.com/sarazong/Metis_project5/blob/master/images/slide_cover1.jpeg" alt="book shelf" width="500" height="400">
 
 ### Features:
-- review content 
-- review title
-- podcast rating
-- podcast title
-- podcast categories
-- review date
+- book title
+- author
+- book cover
+- average rating 
+- number of ratings
+- number of reviews
+- book summary
+- length of the book
+- year published
+- publisher
 
 ### Goal:
-Identify hidden topics among podcast reviews
+Build a content-based recommender 
 
 ### Data Used:
-podcast review data from [link](https://www.kaggle.com/thoughtvector/podcastreviews)
+Web-scraped data from Goodreads
 
 ### Tools Used:
+- selenium
+- beautifulsoup
 - numpy
 - pandas
 - matplotlib
@@ -27,4 +33,4 @@ podcast review data from [link](https://www.kaggle.com/thoughtvector/podcastrevi
 - gensim
 
 ### Possible impacts of your project:
-Provide podcast recommendation to podcast listeners based on topics identified from user reviews
+Provide relevant book recommendation to enhance reader experience
