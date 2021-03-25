@@ -33,4 +33,4 @@ Web-scraped data from Goodreads
 - gensim
 
 ### Possible impacts of your project:
-Provide relevant book recommendation to enhance reader experience
+Provide relevant book recommendation to enhance readers' experience
