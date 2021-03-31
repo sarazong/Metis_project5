@@ -50,7 +50,7 @@ with data:
     ax.set_ylabel("Number of Books")
     ax.set_title("Number of Books per Topic in the Dataset", weight="bold");
     st.pyplot(fig)
-        
+    
     
 with sample_books:
     st.header("A few sample books from the dataset:")
