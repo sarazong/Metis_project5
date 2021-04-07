@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from PIL import Image
 from sklearn.metrics import pairwise_distances
 
@@ -22,34 +21,22 @@ recommender2 = st.beta_container()
 
 with header:
     st.title("Welcome to my non-fiction book recommender!")
-    st.markdown("Some of us read books for mental stimulation, some read for stress reduction, yet others read for knowledge... We read books for different reasons. However, reading a book from end to end is no trivial task. Before we invest our time to start reading a book, it's just natural to ask: is this book worth reading? Or how to choose a book from so many options out there that I would enjoy? This project aims to answer the question by applying natural langague processing on book summaries to explore topics among these books and to build a content-based book recommender.")
+    st.markdown("We read books for different reasons. Some of us read for mental stimulation, some read for stress reduction, yet others read for knowledge, etc. However, reading a book from end to end is no trivial task. Before we invest our time in reading a book, it's natural to ask: is this book worth reading? Or how to choose a book from so many options that I would actually enjoy? This project aims to answer the question by applying natural langague processing techniques on book summaries, to explore the topics among these books and to build a content-based book recommender.")
     
     
 with data:
     #discription of the data used in this project
     st.header("About this dataset:")
-    st.markdown("Information for ~3,000 non-fiction books is obtained from Goodreads. Features in this dataset include: (1)title, (2)author, (3)rating, (4)number of rating, (5)number of review, (6)pages, (7)year published, (8)publisher, (9)summary, and (10)topic -- identified from topic modeling.")
+    st.markdown("Information for >3,000 non-fiction books is obtained from Goodreads. Features in this dataset include: (1)title, (2)author, (3)rating, (4)number of rating, (5)number of review, (6)pages, (7)year published, (8)publisher, (9)summary, and (10)topics -- identified from topic modeling.")
     
     #read in the data
     df = pd.read_pickle("data/data_for_streamlit.pkl")
     st.write(df)
     
     #plot number of books per topic identified from summary
+    st.subheader("Number of Books per Topic in This Dataset")
     df_plot = pd.DataFrame(df["topic"].value_counts())
-    
-    plt.style.use("seaborn")
-    plt.rcParams["figure.figsize"] = [6, 3]
-    fig, ax = plt.subplots()
-    bars = ax.bar(df_plot.index, df_plot.topic)
-    for bar in range(0, 12, 2):
-        bars[bar].set_color("darkmagenta")
-    for bar in range(1, 13, 2):
-        bars[bar].set_color("plum")
-    ax.set_xticks(list(range(12)))
-    ax.set_xticklabels(list(df_plot.index), rotation = 60)
-    ax.set_ylabel("Number of Books")
-    ax.set_title("Number of Books per Topic in the Dataset", weight="bold");
-    st.pyplot(fig)
+    st.bar_chart(df_plot)
     
     
 with sample_books:
