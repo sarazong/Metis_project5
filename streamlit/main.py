@@ -31,8 +31,7 @@ with data:
     st.markdown("Information for ~3,000 non-fiction books is obtained from Goodreads. Features in this dataset include: (1)title, (2)author, (3)rating, (4)number of rating, (5)number of review, (6)pages, (7)year published, (8)publisher, (9)summary, and (10)topic -- identified from topic modeling.")
     
     #read in the data
-    #df = pd.read_pickle("data/data_for_streamlit.pkl")
-    df = pd.read_pickle("https://github.com/sarazong/Metis_project5/tree/master/streamlit/data")
+    df = pd.read_pickle("data_for_streamlit.pkl")
     st.write(df)
     
     #plot number of books per topic identified from summary
