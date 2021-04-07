@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 from PIL import Image
-from scikit_learn.metrics import pairwise_distances
+from sklearn.metrics import pairwise_distances
 
 #***TO re-direct print out from terminal to Streamlit***
 from contextlib import contextmanager
