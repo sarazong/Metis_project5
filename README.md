@@ -17,7 +17,7 @@ We read for different reasons, such as for mental stimulation, stress reduction,
 - publisher
 
 ### Goal:
-Build a content-based recommender 
+Build a content-based recommender, [here](https://share.streamlit.io/sarazong/nonfiction_streamlit/main.py) is my streamlit dashboard 
 
 ### Data Used:
 Web-scraped data from Goodreads
